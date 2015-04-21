@@ -62,7 +62,7 @@ public class Utilisateur extends Personne{
 	
 public void setNbEmpruntsEnCours() {
 		NbEmpruntsEnCours=0;
-	for(EmpruntEnCours e:this.EmpruntEncours)
+	for(@SuppressWarnings("unused") EmpruntEnCours e:this.EmpruntEncours)
 		NbEmpruntsEnCours += 1;
 	
 	}

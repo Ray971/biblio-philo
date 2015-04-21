@@ -14,11 +14,6 @@ public class TestDeBase {
 
 	public static void main(String[] args) {
 		
-		//Instanciation de ExemplaireDao
-		ExemplaireDao Dexemp=new ExemplaireDao();
-		UtilisateurDao utilisateur=new UtilisateurDao(); 
-		
-		
 		System.out.println("\n**********************************************");
 		System.out.println("Demande de deux exemplaires par leur id aux Dao:");
 		System.out.println("************************************************");
@@ -39,7 +34,7 @@ public class TestDeBase {
 		System.out.println("Demande d'un employé par leur id aux Dao:");
 		System.out.println("*****************************************");
 		
-		Utilisateur em2=utilisateur.findByKey(4);
+		Utilisateur em2=UtilisateurDao.findByKey(4);
 		System.out.println(em2); // affichage d'un employé (id=4)
 		
 		System.out.println("\n************************************************");
