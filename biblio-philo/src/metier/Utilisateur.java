@@ -3,6 +3,16 @@ package metier;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.net.UnknownHostException;
+
+import com.mongodb.BasicDBObjectBuilder;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+import com.mongodb.WriteResult;
 
 
 public class Utilisateur extends Personne{
@@ -13,7 +23,9 @@ public class Utilisateur extends Personne{
 	private String pseudonyme;
 	private int NbEmpruntsEnCours;
 	private ArrayList<EmpruntEnCours> EmpruntEncours=new ArrayList<EmpruntEnCours>();
-	
+	MongoClient mongoClient = new MongoClient("localhost");
+	DB db = mongoClient.getDB("insertEmpruntEnCours");
+	DBCollection coll = db.getCollection("empruntencours");
 
 /*************************************************Constructors********************************************/
 	public Utilisateur (){
@@ -74,12 +86,29 @@ public void setRetourEmprunt(int idExemplaire){
 	
 }
 
-	public void setEmpruntEnCours(Date date,Exemplaire exemplaire) throws BiblioException {
+	public void setEmpruntEnCours(Date date,Exemplaire exemplaire) throws BiblioException{
 	
 			if(this.isConditionsPretAcceptees()){
 			
 			EmpruntEnCours emp=new EmpruntEnCours(date,exemplaire);
 			EmpruntEncours.add(emp);
+			DBObject doc = createDBObject(emp);
+			 WriteResult result = coll.insert(doc); // insert
+	
+			 // Read
+		        DBObject query = BasicDBObjectBuilder.start().add("Emprunt en Cours", emp.toString()).get();
+		        DBCursor cursor = coll.find(query); // find
+		        while(cursor.hasNext()){
+		            System.out.println(cursor.next());
+		        }
+		        
+		        //update example
+		        DBObject query2 = BasicDBObjectBuilder.start().add("Emprunt en Cours", emp.toString()).get();
+		        emp.setStatus(EnumStatusExemplaire.SUPPRIME);
+		        doc = createDBObject(emp);
+		        result = coll.update(query2, doc);
+		        
+		        		        
 			this.setNbEmpruntsEnCours();
 			emp.setListEmpruntEncours(this.idUtilisateur);
 			
@@ -98,7 +127,13 @@ public ArrayList<EmpruntEnCours> getEmpruntEncours() {
 		return EmpruntEncours;
 	}
 
-
+private static DBObject createDBObject(EmpruntEnCours emp2) {
+    BasicDBObjectBuilder docBuilder = BasicDBObjectBuilder.start();
+                             
+    docBuilder.append("Emprunt en Cours", emp2.toString());
+   
+    return docBuilder.get();
+}
 
 /**************************************************************************************************************/
 	

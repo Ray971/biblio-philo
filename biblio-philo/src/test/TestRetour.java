@@ -3,6 +3,7 @@ package test;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
 import metier.BiblioException;
 import metier.EmpruntArchive;
 import metier.Exemplaire;
@@ -20,8 +21,8 @@ public class TestRetour {
 		Utilisateur ad1=UtilisateurDao.findByKey(3); // Demande d'un utilisateur id=6	
 		
 		try {
-			ad1.setEmpruntEnCours(new GregorianCalendar(2015,Calendar.APRIL,7).getTime(), ex1);
-			ad1.setEmpruntEnCours(new GregorianCalendar(2015,Calendar.APRIL,8).getTime(), ex2);
+			ad1.setEmpruntEnCours(new GregorianCalendar(2015,Calendar.APRIL,24).getTime(), ex1);
+			ad1.setEmpruntEnCours(new GregorianCalendar(2015,Calendar.APRIL,25).getTime(), ex2);
 		} 
 		catch (BiblioException e) {
 			
@@ -43,7 +44,7 @@ public class TestRetour {
 		System.out.println("Affichage de l'Archivage de l'emprunt:");
 		System.out.println("**************************************");
 		System.out.println(EmpruntArchive.getArchive());
-		
+	
 	}
 
 }

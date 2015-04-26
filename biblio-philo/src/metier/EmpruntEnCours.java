@@ -4,6 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.MongoClient;
+
 public class EmpruntEnCours {
 	
 	private Date dateEmprunt;
@@ -14,7 +19,8 @@ public class EmpruntEnCours {
 	private static ArrayList<EmpruntEnCours> emp1=new ArrayList<EmpruntEnCours>();
 	private int idUtilisateur;
 	EmpruntArchive empruntarch;
-
+	
+	
 	public EmpruntEnCours(){
 
 		}
@@ -78,7 +84,7 @@ public class EmpruntEnCours {
 
 	}
 	public void setStatus(EnumStatusExemplaire status) {
-		this.status = status;
+		this.exemplaire.setStatus(status);
 	}
 
 	public void setExemplaire(Exemplaire exemplaire) {
